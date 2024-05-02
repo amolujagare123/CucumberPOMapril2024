@@ -27,29 +27,45 @@ public class SearchResultPage extends Base{
     }
 
 
-    By ratingElement = By.xpath("//div[contains(@aria-label , 'out of 5')]");
-    public ArrayList<Integer> getStarRatingList()
+    By allRatings = By.xpath("//div[@data-testid='rating-stars']");
+    By allStars = By.xpath("//div[@data-testid='rating-stars']/span");
+
+    public int getTotalRating()
     {
-        List<WebElement> ratingElementList = getDriver().findElements(ratingElement);
-
-        getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(20));
-
-        ArrayList<Integer> ratingList = new ArrayList<>();
-       /* for (int i=0;i<ratingElementList.size();i++)
-        {
-            String ariaLabel = ratingElementList.get(i).getAttribute("aria-label"); // "4 out of 5"
-            String ratingStr = ariaLabel.split(" ")[0];
-            int rating = Integer.parseInt(ratingStr);
-            ratingList.add(rating);
-        }*/
-        for (WebElement element : ratingElementList )
-        {
-            String ariaLabel = element.getAttribute("aria-label"); // "4 out of 5"
-            String ratingStr = ariaLabel.split(" ")[0];
-            int rating = Integer.parseInt(ratingStr);
-            ratingList.add(rating);
-        }
-        return ratingList;
+        return getDriver().findElements(allRatings).size();
     }
+
+    public int getTotalStars()
+    {
+        return getDriver().findElements(allStars).size();
+    }
+
+    By rawPrice = By.xpath("//span[@data-testid='price-and-discounted-price']");
+
+    public ArrayList<Integer> getPriceList()
+    {
+        ArrayList<Integer> priceList = new ArrayList<>();
+        ArrayList<String> priceListStr = getElementTextList(rawPrice);
+
+        for (String priceStr : priceListStr ) // ₹ 71,245
+        {
+            String priceWithoutR = priceStr.split(" ")[1]; // 71,245
+            String priceWithoutComma = priceWithoutR.replace(",",""); //// 71245
+            int price = Integer.parseInt(priceWithoutComma);
+            priceList.add(price);
+        }
+
+        return priceList;
+    }
+
+
+    By hotelListElement = By.xpath("//div[@data-testid='title']");
+
+    public ArrayList<String> getHotelList()
+    {
+        return getElementTextList(hotelListElement);
+    }
+
+
 
 }

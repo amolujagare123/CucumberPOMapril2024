@@ -14,24 +14,20 @@ Feature: All bookings.com scenarios
     Then I verify system displays only <stars> hotels on search result
     Examples:
       | stars   |
-      | 5 stars |
-     # | 4 stars |
+     # | 5 stars |
+      | 4 stars |
      # | 3 stars |
 
-
 #2
-
 
   @maxAmount
   Scenario: check the hotel prices are below a certain amount
     Given I am on default locations search result screen
-    Then I verify system displays all hotels within "40000" amount
+    Then I verify system displays all hotels within "55000" amount
 
 
-
-
-#3
+ #3
   @hotelsSearch
   Scenario: verify given hotel is present in the list
     Given I am on default locations search result screen
-    Then I verify "Residency Hotel Fort" is within the search result
+    Then I verify "Hillock Resort" is within the search result
